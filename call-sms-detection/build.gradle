@@ -1,5 +1,29 @@
 apply plugin: 'com.android.library'
 
+ext {
+    bintrayRepo = 'CallSmsDetection'
+    bintrayName = 'call-sms-detection'
+
+    publishedGroupId = 'com.fierydevs.callsmsdetection'
+    libraryName = 'CallSmsDetection'
+    artifact = 'call-sms-detection'
+
+    libraryDescription = 'A library to detect incoming and outgoing calls and incoming and outgoing sms'
+
+    siteUrl ='https://github.com/pranit21/call-sms-detector/'
+    gitUrl = 'https://github.com/pranit21/call-sms-detector.git'
+
+    libraryVersion = '0.1.0'
+
+    developerId = 'pranit21'
+    developerName = 'Pranit More'
+    developerEmail = 'morepranit@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -28,3 +52,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
