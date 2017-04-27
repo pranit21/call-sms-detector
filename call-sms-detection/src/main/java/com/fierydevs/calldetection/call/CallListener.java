@@ -10,6 +10,7 @@ import java.util.Date;
 
 public interface CallListener {
     void onIncomingCallStarted(Context ctx, String number, Date start, String contactName);
+    void onIncomingCallAnswered(Context ctx, String number, Date start);
     void onOutgoingCallStarted(Context ctx, String number, Date start, String contactName);
     void onIncomingCallEnded(Context ctx, String number, Date start, Date end);
     void onOutgoingCallEnded(Context ctx, String number, Date start, Date end);

@@ -8,12 +8,12 @@ ext {
     libraryName = 'CallSmsDetection'
     artifact = 'call-sms-detection'
 
-    libraryDescription = 'A library to detect incoming and outgoing calls and incoming and outgoing sms'
+    libraryDescription = 'A library to detect incoming and outgoing calls and incoming and outgoing sms. Also call recording.'
 
     siteUrl ='https://github.com/pranit21/call-sms-detector/'
     gitUrl = 'https://github.com/pranit21/call-sms-detector.git'
 
-    libraryVersion = '0.1.0'
+    libraryVersion = '0.2.0'
 
     developerId = 'pranit21'
     developerName = 'Pranit More'

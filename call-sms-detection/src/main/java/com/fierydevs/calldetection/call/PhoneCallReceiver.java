@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import com.fierydevs.calldetection.CallSmsDetector;
 
@@ -73,18 +72,26 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                     isIncoming = false;
                     callStartTime = new Date();
                     contactName = CallSmsDetector.retrieveContactName(context, savedNumber);
+                    CallSmsDetector.startRecording(context);
                     mCallListener.onOutgoingCallStarted(context, savedNumber, callStartTime, contactName);
+                } else {
+                    isIncoming = true;
+                    callStartTime = new Date();
+                    CallSmsDetector.startRecording(context);
+                    mCallListener.onIncomingCallAnswered(context, savedNumber, callStartTime);
                 }
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
                 //Went to idle-  this is the end of a call.  What type depends on previous state(s)
                 if (lastState == TelephonyManager.CALL_STATE_RINGING) {
                     //Ring but no pickup-  a miss
+                    CallSmsDetector.stopRecording(); // discard this recording
                     mCallListener.onMissedCall(context, savedNumber, callStartTime);
                 } else if (isIncoming) {
+                    CallSmsDetector.stopRecording();
                     mCallListener.onIncomingCallEnded(context, savedNumber, callStartTime, new Date());
-                    Log.e("Savednumber", savedNumber);
                 } else {
+                    CallSmsDetector.stopRecording();
                     mCallListener.onOutgoingCallEnded(context, savedNumber, callStartTime, new Date());
                 }
                 break;

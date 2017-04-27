@@ -5,7 +5,9 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.ContactsContract;
 
@@ -13,6 +15,9 @@ import com.fierydevs.calldetection.call.CallListener;
 import com.fierydevs.calldetection.sms.SmsObserver;
 import com.fierydevs.calldetection.sms.SmsReceivedListener;
 import com.fierydevs.calldetection.sms.SmsSentListener;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Pranit More on 18-04-2017.
@@ -25,6 +30,8 @@ import com.fierydevs.calldetection.sms.SmsSentListener;
  * {@link com.fierydevs.calldetection.call.PhoneCallReceiver#setCallListener(CallListener)} to detect calls
  */
 public class CallSmsDetector {
+    private static MediaRecorder recorder;
+    private static boolean recordstarted = false;
     /**
      * Call this method to start detecting outgoing sms
      *
@@ -88,5 +95,50 @@ public class CallSmsDetector {
         }
         //Log.e("isMyServiceRunning", "no");
         return false;
+    }
+
+    public static void startRecording(Context context) {
+        //Log.e("recording", "started");
+        File audiofile = null;
+        File sampleDir = new File(Environment.getExternalStorageDirectory(), "/CallDetectionRecordings");
+        if (!sampleDir.exists()) {
+            sampleDir.mkdirs();
+        }
+        String file_name = "Record";
+        try {
+            audiofile = File.createTempFile(file_name, ".amr", sampleDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+
+        recorder = new MediaRecorder();
+        //         recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
+
+        recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION|MediaRecorder.AudioSource.VOICE_DOWNLINK
+                |MediaRecorder.AudioSource.VOICE_UPLINK|MediaRecorder.AudioSource.VOICE_CALL);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        recorder.setOutputFile(audiofile.getAbsolutePath());
+        try {
+            recorder.prepare();
+        } catch (IllegalStateException | IOException e) {
+            e.printStackTrace();
+        }
+        recorder.start();
+        recordstarted = true;
+    }
+
+    public static void stopRecording() {
+        if (recordstarted) {
+            //Log.e("recording", "recording stopped");
+            recorder.stop();
+            recordstarted = false;
+        }
+    }
+
+    public static void callDeviceAdmin(Context context) {
+        Intent intent = new Intent(context, DeviceAdminActivity.class);
+        context.startActivity(intent);
     }
 }
