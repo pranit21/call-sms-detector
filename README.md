@@ -74,3 +74,5 @@ public int onStartCommand(Intent intent, int flags, int startId) {
         return ret;
     }
 ```
+
+And lastly start your service.
