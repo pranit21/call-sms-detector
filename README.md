@@ -3,7 +3,7 @@ This is the library to detect incoming and outgoing calls and incoming and outgo
 
 # Download
 ```groovy
-compile 'com.fierydevs.callsmsdetection:call-sms-detection:0.2.1'
+compile 'com.fierydevs.callsmsdetection:call-sms-detection:0.2.2'
 ```
 
 # Usage
