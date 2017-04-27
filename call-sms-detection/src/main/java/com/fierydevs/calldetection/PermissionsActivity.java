@@ -29,11 +29,14 @@ public class PermissionsActivity extends AppCompatActivity {
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.PROCESS_OUTGOING_CALLS) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{
                         Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE,
                         Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_CONTACTS,
-                        Manifest.permission.PROCESS_OUTGOING_CALLS
+                        Manifest.permission.PROCESS_OUTGOING_CALLS, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO
                 }, MULTIPLE_PERMISSIONS_REQUEST_CODE);
             } else {
                 finish();
@@ -45,7 +48,7 @@ public class PermissionsActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == MULTIPLE_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length > 0) {
-                if (grantResults[4] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults[6] == PackageManager.PERMISSION_GRANTED) {
                     CallSmsDetector.startOutgoingSms(this);
                 }
             } else {
