@@ -35,6 +35,8 @@ public class PermissionsActivity extends AppCompatActivity {
                         Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_CONTACTS,
                         Manifest.permission.PROCESS_OUTGOING_CALLS
                 }, MULTIPLE_PERMISSIONS_REQUEST_CODE);
+            } else {
+                finish();
             }
         }
     }
@@ -46,10 +48,10 @@ public class PermissionsActivity extends AppCompatActivity {
                 if (grantResults[4] == PackageManager.PERMISSION_GRANTED) {
                     CallSmsDetector.startOutgoingSms(this);
                 }
-                finish();
             } else {
                 Toast.makeText(this, "Some of the permissions are not granted.", Toast.LENGTH_SHORT).show();
             }
         }
+        finish();
     }
 }

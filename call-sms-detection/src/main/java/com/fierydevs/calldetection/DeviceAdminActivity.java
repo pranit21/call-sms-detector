@@ -32,6 +32,7 @@ public class DeviceAdminActivity extends AppCompatActivity {
                 //mDPM.lockNow();
                 /*Intent intent = new Intent(MainActivity.this, TService.class);
                 startService(intent);*/
+                finish();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,5 +47,6 @@ public class DeviceAdminActivity extends AppCompatActivity {
             /*Intent intent = new Intent(MainActivity.this, TService.class);
             startService(intent);*/
         }
+        finish();
     }
 }
