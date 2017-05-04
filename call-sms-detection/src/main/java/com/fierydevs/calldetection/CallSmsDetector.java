@@ -32,6 +32,8 @@ import java.io.IOException;
 public class CallSmsDetector {
     private static MediaRecorder recorder;
     private static boolean recordstarted = false;
+    private static File outputFile;
+
     /**
      * Call this method to start detecting outgoing sms
      *
@@ -107,6 +109,7 @@ public class CallSmsDetector {
         String file_name = "Record";
         try {
             audiofile = File.createTempFile(file_name, ".amr", sampleDir);
+            outputFile = audiofile;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -129,12 +132,14 @@ public class CallSmsDetector {
         recordstarted = true;
     }
 
-    public static void stopRecording() {
+    public static File stopRecording() {
         if (recordstarted) {
             //Log.e("recording", "recording stopped");
             recorder.stop();
             recordstarted = false;
+            return outputFile;
         }
+         return null;
     }
 
     public static void callDeviceAdmin(Context context) {

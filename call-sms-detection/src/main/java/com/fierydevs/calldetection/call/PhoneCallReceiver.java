@@ -7,6 +7,7 @@ import android.telephony.TelephonyManager;
 
 import com.fierydevs.calldetection.CallSmsDetector;
 
+import java.io.File;
 import java.util.Date;
 
 /**
@@ -77,22 +78,24 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                 } else {
                     isIncoming = true;
                     callStartTime = new Date();
+                    contactName = CallSmsDetector.retrieveContactName(context, savedNumber);
                     CallSmsDetector.startRecording(context);
-                    mCallListener.onIncomingCallAnswered(context, savedNumber, callStartTime);
+                    mCallListener.onIncomingCallAnswered(context, savedNumber, callStartTime, contactName);
                 }
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
                 //Went to idle-  this is the end of a call.  What type depends on previous state(s)
                 if (lastState == TelephonyManager.CALL_STATE_RINGING) {
+                    contactName = CallSmsDetector.retrieveContactName(context, savedNumber);
                     //Ring but no pickup-  a miss
                     CallSmsDetector.stopRecording(); // discard this recording
-                    mCallListener.onMissedCall(context, savedNumber, callStartTime);
+                    mCallListener.onMissedCall(context, savedNumber, callStartTime, contactName);
                 } else if (isIncoming) {
-                    CallSmsDetector.stopRecording();
-                    mCallListener.onIncomingCallEnded(context, savedNumber, callStartTime, new Date());
+                    File recordedFile = CallSmsDetector.stopRecording();
+                    mCallListener.onIncomingCallEnded(context, savedNumber, callStartTime, new Date(), recordedFile);
                 } else {
-                    CallSmsDetector.stopRecording();
-                    mCallListener.onOutgoingCallEnded(context, savedNumber, callStartTime, new Date());
+                    File recordedFile = CallSmsDetector.stopRecording();
+                    mCallListener.onOutgoingCallEnded(context, savedNumber, callStartTime, new Date(), recordedFile);
                 }
                 break;
         }
