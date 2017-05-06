@@ -46,7 +46,7 @@ public int onStartCommand(Intent intent, int flags, int startId) {
             }
 
             @Override
-            public void onIncomingCallAnswered(Context ctx, String number, Date start) {
+            public void onIncomingCallAnswered(Context ctx, String number, Date start, String contactName) {
                 Log.e("incoming answered", number);
             }
 
@@ -56,17 +56,17 @@ public int onStartCommand(Intent intent, int flags, int startId) {
             }
 
             @Override
-            public void onIncomingCallEnded(Context ctx, String number, Date start, Date end) {
+            public void onIncomingCallEnded(Context ctx, String number, Date start, Date end, File recordedFile) {
                 Log.e("incoming ended", number);
             }
 
             @Override
-            public void onOutgoingCallEnded(Context ctx, String number, Date start, Date end) {
+            public void onOutgoingCallEnded(Context ctx, String number, Date start, Date end, File recordedFile) {
                 Log.e("outgoing ended", number);
             }
 
             @Override
-            public void onMissedCall(Context ctx, String number, Date start) {
+            public void onMissedCall(Context ctx, String number, Date start, String contactName) {
                 Log.e("missed call", number);
             }
         });
