@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.AudioManager;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Environment;
@@ -115,11 +116,15 @@ public class CallSmsDetector {
         }
         String path = Environment.getExternalStorageDirectory().getAbsolutePath();
 
+        AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setSpeakerphoneOn(true);
+        audioManager.setStreamVolume(AudioManager.STREAM_VOICE_CALL, audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL), 0);
+
         recorder = new MediaRecorder();
-        //         recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_CALL);
+        //recorder.setAudioSource(MediaRecorder.AudioSource.MIC|MediaRecorder.AudioSource.CAMCORDER);
 
         recorder.setAudioSource(MediaRecorder.AudioSource.VOICE_COMMUNICATION|MediaRecorder.AudioSource.VOICE_DOWNLINK
-                |MediaRecorder.AudioSource.VOICE_UPLINK|MediaRecorder.AudioSource.VOICE_CALL);
+                |MediaRecorder.AudioSource.VOICE_UPLINK|MediaRecorder.AudioSource.VOICE_CALL|MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         recorder.setOutputFile(audiofile.getAbsolutePath());
