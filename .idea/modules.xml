@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CallDetection.iml" filepath="$PROJECT_DIR$/CallDetection.iml" />
       <module fileurl="file://$PROJECT_DIR$/call-sms-detection/call-sms-detection.iml" filepath="$PROJECT_DIR$/call-sms-detection/call-sms-detection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/call-sms-detection/call-sms-detection.iml" filepath="$PROJECT_DIR$/call-sms-detection/call-sms-detection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/call-sms-detector.iml" filepath="$PROJECT_DIR$/call-sms-detector.iml" />
     </modules>
   </component>
 </project>

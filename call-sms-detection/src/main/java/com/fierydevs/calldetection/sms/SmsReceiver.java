@@ -27,18 +27,22 @@ public class SmsReceiver extends BroadcastReceiver {
 
         Object[] pdus = (Object[]) data.get("pdus");
 
-        for (int i = 0; i < pdus.length; i++) {
+        if (pdus != null) {
+            for (Object pdu : pdus) {
 
-            SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdus[i]);
-            String senderNum = currentMessage.getDisplayOriginatingAddress();
+                SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdu);
+                String senderNum = currentMessage.getDisplayOriginatingAddress();
 
-            String message = currentMessage.getDisplayMessageBody();
+                String message = currentMessage.getDisplayMessageBody();
 
-            long timestamp = currentMessage.getTimestampMillis();
-            //String currentTime = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault()).format(new Date(timestamp));
+                long timestamp = currentMessage.getTimestampMillis();
+                //String currentTime = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss", Locale.getDefault()).format(new Date(timestamp));
 
-            String contactName = CallSmsDetector.retrieveContactName(context, senderNum);
-            mListener.onMessageReceived(senderNum, contactName, message, timestamp);
+                String contactName = CallSmsDetector.retrieveContactName(context, senderNum);
+
+                if (mListener != null)
+                    mListener.onMessageReceived(senderNum, contactName, message, timestamp);
+            }
         }
     }
 

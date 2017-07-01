@@ -65,7 +65,8 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                 callStartTime = new Date();
                 savedNumber = number;
                 contactName = CallSmsDetector.retrieveContactName(context, number);
-                mCallListener.onIncomingCallStarted(context, number, callStartTime, contactName);
+                if (mCallListener != null)
+                    mCallListener.onIncomingCallStarted(context, number, callStartTime, contactName);
                 break;
             case TelephonyManager.CALL_STATE_OFFHOOK:
                 //Transition of ringing->offhook are pickups of incoming calls.  Nothing done on them
@@ -74,13 +75,15 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                     callStartTime = new Date();
                     contactName = CallSmsDetector.retrieveContactName(context, savedNumber);
                     CallSmsDetector.startRecording(context);
-                    mCallListener.onOutgoingCallStarted(context, savedNumber, callStartTime, contactName);
+                    if (mCallListener != null)
+                        mCallListener.onOutgoingCallStarted(context, savedNumber, callStartTime, contactName);
                 } else {
                     isIncoming = true;
                     callStartTime = new Date();
                     contactName = CallSmsDetector.retrieveContactName(context, savedNumber);
                     CallSmsDetector.startRecording(context);
-                    mCallListener.onIncomingCallAnswered(context, savedNumber, callStartTime, contactName);
+                    if (mCallListener != null)
+                        mCallListener.onIncomingCallAnswered(context, savedNumber, callStartTime, contactName);
                 }
                 break;
             case TelephonyManager.CALL_STATE_IDLE:
@@ -89,13 +92,16 @@ public class PhoneCallReceiver extends BroadcastReceiver {
                     contactName = CallSmsDetector.retrieveContactName(context, savedNumber);
                     //Ring but no pickup-  a miss
                     CallSmsDetector.stopRecording(); // discard this recording
-                    mCallListener.onMissedCall(context, savedNumber, callStartTime, contactName);
+                    if (mCallListener != null)
+                        mCallListener.onMissedCall(context, savedNumber, callStartTime, contactName);
                 } else if (isIncoming) {
                     File recordedFile = CallSmsDetector.stopRecording();
-                    mCallListener.onIncomingCallEnded(context, savedNumber, callStartTime, new Date(), recordedFile);
+                    if (mCallListener != null)
+                        mCallListener.onIncomingCallEnded(context, savedNumber, callStartTime, new Date(), recordedFile);
                 } else {
                     File recordedFile = CallSmsDetector.stopRecording();
-                    mCallListener.onOutgoingCallEnded(context, savedNumber, callStartTime, new Date(), recordedFile);
+                    if (mCallListener != null)
+                        mCallListener.onOutgoingCallEnded(context, savedNumber, callStartTime, new Date(), recordedFile);
                 }
                 break;
         }
