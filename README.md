@@ -10,7 +10,7 @@ compile 'com.fierydevs.callsmsdetection:call-sms-detection:0.2.6'
 
 First ask for permissions using 
 ```java
-CallDetector.askForPermissions(context);
+CallSmsDetector.askForPermissions(context);
 ```
 
 Then add device admin policy so no one can force stop your application
